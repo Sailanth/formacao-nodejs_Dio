@@ -1,18 +1,54 @@
-const player1 = {
-  NOME: "Mario",
-  VELOCIDADE: 4,
-  MANOBRABILIDADE: 3,
-  PODER: 3,
-  PONTOS: 0,
-};
-
-const player2 = {
-  NOME: "Luigi",
-  VELOCIDADE: 3,
-  MANOBRABILIDADE: 4,
-  PODER: 4,
-  PONTOS: 0,
-};
+const characters = [
+  {
+    NOME: "Mario",
+    VELOCIDADE: 4,
+    MANOBRABILIDADE: 3,
+    PODER: 3,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Peach",
+    VELOCIDADE: 3,
+    MANOBRABILIDADE: 4,
+    PODER: 2,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Yoshi",
+    VELOCIDADE: 2,
+    MANOBRABILIDADE: 4,
+    PODER: 3,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Toad",
+    VELOCIDADE: 3,
+    MANOBRABILIDADE: 5,
+    PODER: 2,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Bowser",
+    VELOCIDADE: 5,
+    MANOBRABILIDADE: 2,
+    PODER: 5,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Luigi",
+    VELOCIDADE: 3,
+    MANOBRABILIDADE: 4,
+    PODER: 4,
+    PONTOS: 0,
+  },
+  {
+    NOME: "Donkey Kong",
+    VELOCIDADE: 2,
+    MANOBRABILIDADE: 2,
+    PODER: 5,
+    PONTOS: 0,
+  },
+];
 
 async function rollDice() {
   return Math.floor(Math.random() * 6) + 1;
@@ -38,7 +74,7 @@ async function getRandomBlock() {
 
 async function logRollResult(characterName, block, diceResult, attribute) {
   console.log(
-    `${characterName} 🎲 rolou um dado de ${block} ${diceResult} + ${attribute} = ${
+    `${characterName} rolou um dado de ${block} ${diceResult} + ${attribute} = ${
       diceResult + attribute
     }`
   );
@@ -46,7 +82,7 @@ async function logRollResult(characterName, block, diceResult, attribute) {
 
 async function playRaceEngine(character1, character2) {
   for (let round = 1; round <= 5; round++) {
-    console.log(`🏁 Rodada ${round}`);
+    console.log(`Rodada ${round}`);
 
     // sortear bloco
     let block = await getRandomBlock();
@@ -102,7 +138,7 @@ async function playRaceEngine(character1, character2) {
       let powerResult1 = diceResult1 + character1.PODER;
       let powerResult2 = diceResult2 + character2.PODER;
 
-      console.log(`${character1.NOME} confrontou com ${character2.NOME}! 🥊`);
+      console.log(`${character1.NOME} confrontou com ${character2.NOME}!`);
 
       await logRollResult(
         character1.NOME,
@@ -120,14 +156,14 @@ async function playRaceEngine(character1, character2) {
 
       if (powerResult1 > powerResult2 && character2.PONTOS > 0) {
         console.log(
-          `${character1.NOME} venceu o confronto! ${character2.NOME} perdeu 1 ponto 🐢`
+          `${character1.NOME} venceu o confronto! ${character2.NOME} perdeu 1 ponto`
         );
         character2.PONTOS--;
       }
 
       if (powerResult2 > powerResult1 && character1.PONTOS > 0) {
         console.log(
-          `${character2.NOME} venceu o confronto! ${character1.NOME} perdeu 1 ponto 🐢`
+          `${character2.NOME} venceu o confronto! ${character1.NOME} perdeu 1 ponto`
         );
         character1.PONTOS--;
       }
@@ -158,15 +194,55 @@ async function declareWinner(character1, character2) {
   console.log(`${character2.NOME}: ${character2.PONTOS} ponto(s)`);
 
   if (character1.PONTOS > character2.PONTOS)
-    console.log(`\n${character1.NOME} venceu a corrida! Parabéns! 🏆`);
+    console.log(`\n${character1.NOME} venceu a corrida! Parabéns!`);
   else if (character2.PONTOS > character1.PONTOS)
-    console.log(`\n${character2.NOME} venceu a corrida! Parabéns! 🏆`);
+    console.log(`\n${character2.NOME} venceu a corrida! Parabéns!`);
   else console.log("A corrida terminou em empate");
 }
 
+// Função para simular input (para uso em ambientes sem prompt de navegador)
+function simulateInput(promptMessage) {
+  const input = prompt(promptMessage);
+  return parseInt(input, 10);
+}
+
 (async function main() {
+  console.log("Bem-vindo ao Mario Kart CLI!\n");
+  console.log("Escolha seus personagens:\n");
+
+  characters.forEach((char, index) => {
+    console.log(`${index + 1}. ${char.NOME}`);
+  });
+
+  let player1ChoiceIndex;
+  let player2ChoiceIndex;
+
+  while (true) {
+    player1ChoiceIndex = simulateInput("Jogador 1, escolha seu personagem (digite o número): ") - 1;
+    if (player1ChoiceIndex >= 0 && player1ChoiceIndex < characters.length) {
+      break;
+    } else {
+      console.log("Escolha inválida. Por favor, digite um número válido.");
+    }
+  }
+
+  while (true) {
+    player2ChoiceIndex = simulateInput("Jogador 2, escolha seu personagem (digite o número): ") - 1;
+    if (player2ChoiceIndex >= 0 && player2ChoiceIndex < characters.length && player2ChoiceIndex !== player1ChoiceIndex) {
+      break;
+    } else if (player2ChoiceIndex === player1ChoiceIndex) {
+      console.log("Este personagem já foi escolhido. Por favor, escolha outro.");
+    }
+    else {
+      console.log("Escolha inválida. Por favor, digite um número válido.");
+    }
+  }
+
+  const player1 = { ...characters[player1ChoiceIndex], PONTOS: 0 };
+  const player2 = { ...characters[player2ChoiceIndex], PONTOS: 0 };
+
   console.log(
-    `🏁🚨 Corrida entre ${player1.NOME} e ${player2.NOME} começando...\n`
+    `Corrida entre ${player1.NOME} e ${player2.NOME} começando...\n`
   );
 
   await playRaceEngine(player1, player2);
