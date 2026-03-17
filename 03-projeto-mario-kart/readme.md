@@ -42,6 +42,15 @@
                 <p>Manobrabilidade: 4</p>
                 <p>Poder: 3</p>
             </td>
+            <td style="border: 1px solid black; text-align: center;">
+              <p>Toad</p>
+              <img src="./docs/toad.gif" alt="Mario Kart" width="60" height="60">
+            </td>
+            <td style="border: 1px solid black; text-align: center;">
+              <p>Velocidade: 3</p>
+              <p>Manobrabilidade: 5</p>
+              <p>Poder: 2</p>
+            </td>
         </tr>
         <tr>
             <td style="border: 1px solid black; text-align: center;">
