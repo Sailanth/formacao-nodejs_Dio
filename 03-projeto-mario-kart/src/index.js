@@ -200,9 +200,12 @@ async function declareWinner(character1, character2) {
   else console.log("A corrida terminou em empate");
 }
 
-// Função para simular input (para uso em ambientes sem prompt de navegador)
+// Importa o módulo readline-sync para entrada síncrona no Node.js
+const readlineSync = require('readline-sync');
+
+// Função para simular input 
 function simulateInput(promptMessage) {
-  const input = prompt(promptMessage);
+  const input = readlineSync.question(promptMessage);
   return parseInt(input, 10);
 }
 
